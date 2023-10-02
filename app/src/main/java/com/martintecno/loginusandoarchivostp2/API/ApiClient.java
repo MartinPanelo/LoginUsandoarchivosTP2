@@ -11,6 +11,7 @@ import com.martintecno.loginusandoarchivostp2.model.Usuario;
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
+import java.io.EOFException;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -38,7 +39,7 @@ public class ApiClient {
     }
 
 
-    public static Usuario getUsuarioPorCorreo(Context context, String correo_){
+    public static Usuario getUsuarioPorCorreo(Context context, String correo_,boolean uso){
 
         File archivo = conectar(context);
 
@@ -67,6 +68,9 @@ public class ApiClient {
             Toast.makeText(context, "Error al leer getUsuarioPorCorreo", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
 
+            if (e instanceof EOFException && uso) {
+                Toast.makeText(context, "Usuario y/o contraña incorrectos", Toast.LENGTH_SHORT).show();
+            }
 
             // esta excepcion se debe a que se termino de leer el archivo y ya no se puede leer ===>>>> EOFException
 
@@ -90,7 +94,7 @@ public class ApiClient {
 
             ObjectOutputStream OOS = new ObjectOutputStream(BOS);
 
-            if(ApiClient.getUsuarioPorCorreo(context, usuario.getCorreo()) == null){// si no existe lo registro
+            if(ApiClient.getUsuarioPorCorreo(context, usuario.getCorreo(),false) == null){// si no existe lo registro
 
                 OOS.writeObject(usuario);
                 BOS.flush();
@@ -122,7 +126,7 @@ public class ApiClient {
 
 
 
-            if(ApiClient.getUsuarioPorCorreo(context, usuario.getCorreo()) == null){// si no existe el correo actualizo
+            if(ApiClient.getUsuarioPorCorreo(context, usuario.getCorreo(),true) == null){// si no existe el correo actualizo
 
                 OOS.writeObject(usuario);
                 BOS.flush();

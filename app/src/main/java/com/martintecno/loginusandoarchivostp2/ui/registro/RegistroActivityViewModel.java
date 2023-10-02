@@ -58,7 +58,7 @@ public class RegistroActivityViewModel extends AndroidViewModel {
             BotonM.setValue("Guardar");
             this.correoF = correo_;
 
-            usuarioM.setValue(ApiClient.getUsuarioPorCorreo(context, correo_));
+            usuarioM.setValue(ApiClient.getUsuarioPorCorreo(context, correo_,true));
         }else{
             TituloM.setValue("Registrar Usuario");
             BotonM.setValue("Registrar");
