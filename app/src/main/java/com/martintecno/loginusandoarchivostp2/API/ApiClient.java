@@ -68,10 +68,6 @@ public class ApiClient {
             Toast.makeText(context, "Error al leer getUsuarioPorCorreo", Toast.LENGTH_LONG).show();
         } catch (IOException e) {
 
-            if (e instanceof EOFException && uso) {
-                Toast.makeText(context, "Usuario y/o contraña incorrectos", Toast.LENGTH_SHORT).show();
-            }
-
             // esta excepcion se debe a que se termino de leer el archivo y ya no se puede leer ===>>>> EOFException
 
         } catch (ClassNotFoundException e) {
